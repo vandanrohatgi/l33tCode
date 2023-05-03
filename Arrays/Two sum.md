@@ -77,3 +77,7 @@ func twoSum(nums []int, target int) []int {
 ```
 
 This one performed much better. Onto my quest for even better answer. I tried calculating time and space complexity for this but yeah... no. I'm too tired already.
+
+## Day 2
+Looking further, we can just add the whole thing inside one loop. 
+Oh and the time complexity appears to be O(n) and space complexity to be O(n). Trust me, I saw it on leetcode solutions.
