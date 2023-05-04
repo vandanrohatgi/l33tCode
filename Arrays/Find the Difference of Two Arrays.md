@@ -74,4 +74,75 @@ func findDifference(nums1 []int, nums2 []int) [][]int {
 }
 ```
 
-but this does not handle duplicates in the array named "distinct" which I found hilarious.
+but this does not handle duplicates in the array named "distinct" which I found hilarious. I used maps to to create our own version of sets:
+
+```go
+func findDifference(nums1 []int, nums2 []int) [][]int {
+	distinct1Map := make(map[int]struct{})
+	distinct2Map := make(map[int]struct{})
+	for _, value := range nums1 {
+		distinct1Map[value] = struct{}{}
+	}
+	for _, value := range nums2 {
+		distinct2Map[value] = struct{}{}
+	}
+	distinct1 := make([]int, 0)
+	distinct2 := make([]int, 0)
+	found := false
+	for _, i := range nums1 {
+		found = false
+		for _, x := range nums2 {
+			if i == x {
+				found = true
+				break
+			}
+		}
+		if found {
+			delete(distinct1Map, i)
+			delete(distinct2Map, i)
+		}
+	}
+	for i := range distinct1Map {
+		distinct1 = append(distinct1, i)
+	}
+
+	for i := range distinct2Map {
+		distinct2 = append(distinct2, i)
+	}
+	return [][]int{distinct1, distinct2}
+}
+```
+
+We can remove some of the complexity by just looping once over just one list:
+
+```go
+func findDifference(nums1 []int, nums2 []int) [][]int {
+	distinct1Map := make(map[int]struct{})
+	distinct2Map := make(map[int]struct{})
+	for _, value := range nums1 {
+		distinct1Map[value] = struct{}{}
+	}
+	for _, value := range nums2 {
+		distinct2Map[value] = struct{}{}
+	}
+	distinct1 := make([]int, 0)
+	distinct2 := make([]int, 0)
+
+	for _, i := range nums1 {
+		if _, ok := distinct2Map[i]; ok {
+			delete(distinct1Map, i)
+			delete(distinct2Map, i)
+		}
+	}
+	for i := range distinct1Map {
+		distinct1 = append(distinct1, i)
+	}
+
+	for i := range distinct2Map {
+		distinct2 = append(distinct2, i)
+	}
+	return [][]int{distinct1, distinct2}
+}
+```
+
+that is still uses 5 loops and I'm disgusted by myself. Going above and beyond now... PLUS ULTRA, (cue all for one theme).
