@@ -146,3 +146,33 @@ func findDifference(nums1 []int, nums2 []int) [][]int {
 ```
 
 that is still uses 5 loops and I'm disgusted by myself. Going above and beyond now... PLUS ULTRA, (cue all for one theme).
+I was able to bring it down to 3 loops at the cost of extra space:
+```go
+func findDifference(nums1 []int, nums2 []int) [][]int {
+	genericMap := make(map[int]int)
+	commonMap:=make(map[int]int)
+	distinct1 := make([]int, 0)
+	distinct2 := make([]int, 0)
+	for _, value := range nums1 {
+		genericMap[value] = 1
+	}
+	for _, value := range nums2 {
+		if numList, _ := genericMap[value]; numList == 1 {
+			commonMap[value] = 0
+			continue
+		}
+		genericMap[value] = 2
+	}
+
+	for key, numList := range genericMap {
+		if numList == 2 {
+			distinct2 = append(distinct2, key)
+		} else if _,ok:=commonMap[key]; !ok {
+			distinct1 = append(distinct1, key)
+		}
+	}
+
+	return [][]int{distinct1, distinct2}
+}
+```
+
