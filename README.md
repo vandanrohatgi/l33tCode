@@ -1,4 +1,4 @@
-#lol
+# lol
 
 Keep moving, just another leetcode repository. Maybe the intention is different with this one. It's not for a leetcode grind or any interview preparation. I'm learning GO and this is just good practice.
 
