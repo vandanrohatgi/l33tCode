@@ -87,4 +87,32 @@ func (m myMap) getArray() []int {
 }
 ```
 
-it doesn't work but, it's my repository. I can post here what I want... sue me.
+it doesn't work but, it's my repository. I can post here what I want... sue me. 
+
+Well, turns out I just had to use pointers. I kinda figured that was the case. I'm actually kinda proud of this solution, coz not only it ran close to the first time , it also beat 40% of the runtimes.
+
+```go
+func (m *myMap) sort() []int {
+	....
+}
+
+func (m *myMap) getArray() []int {
+	....
+}
+```
+
+Right. Let the try harding begin. because I just forgot that this array is already sorted in ascending order. Not gonna lie, I only got reminded of this after I glanced at a solution. 
+
+```go
+func removeDuplicates(nums []int) int {
+	var count int
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] < nums[i+1] {
+			nums[count] = nums[i]
+			count++
+		}
+	}
+	return count
+}
+```
+This solution was falling short of the last element. 
