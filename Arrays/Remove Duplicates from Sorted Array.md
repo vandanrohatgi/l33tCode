@@ -115,4 +115,17 @@ func removeDuplicates(nums []int) int {
 	return count
 }
 ```
-This solution was falling short of the last element. 
+This solution was falling short of the last element. Here is the final working* solution which I think is the best I can do:
+
+```go
+func removeDuplicates(nums []int) int {
+	var count int = 1 
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] < nums[i] {
+			nums[count] = nums[i]
+			count++
+		}
+	}
+	return count
+}
+```
