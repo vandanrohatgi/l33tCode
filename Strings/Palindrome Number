@@ -71,3 +71,27 @@ Beats
 Memory4.5 MB
 Beats
 84.74%
+
+And here is one without converting anything to string (I had to lookup a mathematical way to reverse a number). surprisingly this looks a lot more simple yet it is a lot slower:
+
+```go
+func isPalindrome(x int) bool {
+	reverse := 0
+	original := x
+	if x < 0 {
+		return false
+	}
+	for x != 0 {
+		remainder := x % 10
+		reverse = reverse*10 + remainder
+		x /= 10
+	}
+	return original == reverse
+}
+```
+Runtime23 ms
+Beats
+60.89%
+Memory4.3 MB
+Beats
+99.96%
