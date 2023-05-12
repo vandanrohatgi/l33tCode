@@ -60,3 +60,99 @@ func romanToInt(s string) int {
 	return number
 }
 ```
+
+After brute forcing my way through life:
+```go
+func romanToInt(s string) int {
+	roman := map[string]int{"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+	number := roman[string(s[0])]
+	for i := 1; i < len(s); i++ {
+		previousNumeral := string(s[i-1])
+		numeral := string(s[i])
+		fmt.Println(numeral)
+		if numeral == "V" && previousNumeral == "I" {
+			number += 3
+		} else if numeral == "X" && previousNumeral == "I" {
+			number += 8
+		} else if numeral == "L" && previousNumeral == "X" {
+			number += 30
+		} else if numeral == "C" && previousNumeral == "X" {
+			number += 80
+		} else if numeral == "D" && previousNumeral == "C" {
+			number += 300
+		} else if numeral == "M" && previousNumeral == "C" {
+			number += 800
+		} else {
+			number += roman[numeral]
+		}
+		fmt.Println(number)
+	}
+
+	return number
+}
+```
+Don't ask about the absolute shit I've posted here. The results are as depressing as this solution:
+
+Runtime35 ms
+Beats
+5.69%
+Memory3.6 MB
+Beats
+8.22%
+
+Dear diary, today I found out that switch case is not very fast. Replacing all the if/else with switch just made the code a bit more readable.
+
+```go
+	for i := 1; i < len(s); i++ {
+		previousNumeral := string(s[i-1])
+		numeral := string(s[i])
+		fmt.Println(previousNumeral + numeral)
+		switch romanBs := previousNumeral + numeral; romanBs {
+		case "IV":
+			number += 3
+		case "IX":
+			number += 8
+		case "XL":
+			number += 30
+		case "XC":
+			number += 80
+		case "CD":
+			number += 300
+		case "CM":
+			number += 800
+		default:
+			number += roman[numeral]
+		}
+```
+
+Runtime32 ms
+Beats
+5.69%
+Memory3.6 MB
+Beats
+8.22%
+
+well, I thought hashmaps were always a good way to speed up ;,)
+
+```go
+func romanToInt(s string) int {
+	roman := map[string]int{"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000, "IV": 3, "IX": 8, "XL": 30, "XC": 80, "CD": 300, "CM": 800}
+	number := roman[string(s[0])]
+	for i := 1; i < len(s); i++ {
+		previousNumeral := string(s[i-1])
+		numeral := string(s[i])
+		combined := previousNumeral + numeral
+		fmt.Println(combined)
+		if value, ok := roman[combined]; ok {
+			number += value
+		} else {
+			number += roman[numeral]
+		}
+		fmt.Println(number)
+	}
+
+	return number
+}
+```
+
+Right time to finally see the solution I guess.
